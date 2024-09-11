@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter HOF Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Filter Example: Extract Even Numbers</h2>
+    <input type="text" id="filterInput" placeholder="Enter numbers separated by commas">
+    <button onclick="extractEvens()">Filter</button>
+    <div class="output" id="filterOutput"></div>
+
+    <script>
+        function extractEvens() {
+            let input = document.getElementById('filterInput').value.split(',').map(Number);
+            let evens = input.filter(num => num % 2 === 0);
+            document.getElementById('filterOutput').innerText = evens.length ? evens : 'No even numbers found';
+        }
+    </script>
+</body>
+</html>

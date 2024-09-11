@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #report {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Inventory Management System</h2>
+
+    <h3>Product Inventory</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Available</th>
+            </tr>
+        </thead>
+        <tbody id="product-table">
+            <!-- Product rows will be dynamically inserted here -->
+        </tbody>
+    </table>
+
+    <h3>Filters</h3>
+    <button onclick="filterByCategory('Electronics')">Filter by Electronics</button>
+    <button onclick="filterByAvailability(true)">Filter by Available</button>
+    <button onclick="filterByPriceRange(0, 100)">Filter by Price Range (0-100)</button>
+    
+    <h3>Sort Products</h3>
+    <button onclick="sortByPrice()">Sort by Price</button>
+    <button onclick="sortByQuantity()">Sort by Quantity</button>
+    <button onclick="sortByCategory()">Sort by Category</button>
+
+    <h3>Report</h3>
+    <button onclick="generateReport()">Generate Inventory Report</button>
+    <div id="report"></div>
+
+    <script>
+        const products = [
+            { name: "Laptop", category: "Electronics", price: 1200, quantity: 10, available: true },
+            { name: "Chair", category: "Furniture", price: 100, quantity: 20, available: true },
+            { name: "Shirt", category: "Clothing", price: 30, quantity: 50, available: false },
+            { name: "Book", category: "Books", price: 20, quantity: 100, available: true }
+        ];
+
+        // Display products in table
+        function displayProducts(productList) {
+            const tableBody = document.getElementById('product-table');
+            tableBody.innerHTML = '';
+            productList.forEach(product => {
+                const row = `<tr>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>$${product.price}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.available ? 'Yes' : 'No'}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Initial display
+        displayProducts(products);
+
+        // Filter by category
+        function filterByCategory(category) {
+            const filteredProducts = products.filter(product => product.category === category);
+            displayProducts(filteredProducts);
+        }
+
+        // Filter by availability
+        function filterByAvailability(status) {
+            const filteredProducts = products.filter(product => product.available === status);
+            displayProducts(filteredProducts);
+        }
+
+        // Filter by price range
+        function filterByPriceRange(min, max) {
+            const filteredProducts = products.filter(product => product.price >= min && product.price <= max);
+            displayProducts(filteredProducts);
+        }
+
+        // Sort by price
+        function sortByPrice() {
+            const sortedProducts = [...products].sort((a, b) => a.price - b.price);
+            displayProducts(sortedProducts);
+        }
+
+        // Sort by quantity
+        function sortByQuantity() {
+            const sortedProducts = [...products].sort((a, b) => a.quantity - b.quantity);
+            displayProducts(sortedProducts);
+        }
+
+        // Sort by category
+        function sortByCategory() {
+            const sortedProducts = [...products].sort((a, b) => a.category.localeCompare(b.category));
+            displayProducts(sortedProducts);
+        }
+
+        // Generate report
+        function generateReport() {
+            const totalInventoryValue = products.reduce((acc, product) => acc + (product.price * product.quantity), 0);
+            const averagePrice = products.reduce((acc, product) => acc + product.price, 0) / products.length;
+            const categoryDistribution = products.reduce((acc, product) => {
+                acc[product.category] = (acc[product.category] || 0) + 1;
+                return acc;
+            }, {});
+
+            let reportHTML = `<p>Total Inventory Value: $${totalInventoryValue}</p>`;
+            reportHTML += `<p>Average Price per Product: $${averagePrice.toFixed(2)}</p>`;
+            reportHTML += '<p>Category Distribution:</p><ul>';
+            for (let category in categoryDistribution) {
+                reportHTML += `<li>${category}: ${categoryDistribution[category]} products</li>`;
+            }
+            reportHTML += '</ul>';
+
+            document.getElementById('report').innerHTML = reportHTML;
+        }
+    </script>
+</body>
+</html>

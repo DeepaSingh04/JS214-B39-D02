@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Expenses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f5;
+        }
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Total Expenses Calculator</h2>
+    <div class="output" id="totalExpenses"></div>
+
+    <script>
+        const expenses = [
+            { name: "Food", amount: 50 },
+            { name: "Transportation", amount: 30 },
+            { name: "Internet", amount: 45 },
+            { name: "Groceries", amount: 80 }
+        ];
+
+        function calculateTotalExpenses(expenses) {
+            return expenses.reduce((total, item) => total + item.amount, 0);
+        }
+
+        const totalExpenses = calculateTotalExpenses(expenses);
+        document.getElementById('totalExpenses').innerText = `Total Expenses: $${totalExpenses}`;
+    </script>
+</body>
+</html>

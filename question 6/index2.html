@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reduce HOF Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Reduce Example: Sum of Numbers</h2>
+    <input type="text" id="reduceInput" placeholder="Enter numbers separated by semicolons">
+    <button onclick="sumNumbers()">Calculate Sum</button>
+    <div class="output" id="reduceOutput"></div>
+
+    <script>
+        function sumNumbers() {
+            let input = document.getElementById('reduceInput').value;
+            let numbers = input.split(';').map(Number).filter(n => !isNaN(n)); 
+            let sum = numbers.reduce((acc, curr) => acc + curr, 0);
+            document.getElementById('reduceOutput').innerText = `Sum: ${sum}`;
+        }
+    </script>
+</body>
+</html>
